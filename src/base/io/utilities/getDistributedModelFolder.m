@@ -5,9 +5,10 @@ function  modelDir = getDistributedModelFolder(modelName)
 %
 % USAGE:
 %
+%    modelDir = getDistributedModelFolder() 
 %    modelDir = getDistributedModelFolder(modelName) 
 %
-% INPUT:
+% OPTIONAL INPUT:
 %    modelName:         The name of the model including the file extension
 %    
 %
@@ -24,15 +25,17 @@ if isempty(CBTDIR)
 end
 
 modelDir = [CBTDIR filesep 'test' filesep 'models'];
-
-[~,~,extension] = fileparts(modelName);
-if strcmp(extension,'.mat')
-    modelDir = [modelDir filesep 'mat'];
-elseif strcmp(extension,'.xml')
-    modelDir = [modelDir filesep 'xml'];
+if exist('modelName','var')
+    [~,~,extension] = fileparts(modelName);
+    if strcmp(extension,'.mat')
+        modelDir = [modelDir filesep 'mat'];
+    elseif strcmp(extension,'.xml')
+        modelDir = [modelDir filesep 'xml'];
+    end
+    if exist([modelDir filesep modelName], 'file')
+        return
+    else
+        error('Requested Model not present in the model directory.\n This is either due to the model not being downloaded, or not being part of the distributed models.')
+    end
 end
-if exist([modelDir filesep modelName], 'file')
-    return
-else    
-    error('Requested Model not present in the model directory.\n This is either due to the model not being downloaded, or not being part of the distributed models.')
 end

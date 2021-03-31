@@ -35,6 +35,10 @@ function nameList = fixNames(nameList)
 %    64673 Zwingenberg, Germany
 %    www.brain-biotech.de
 
+bool = cellfun('isempty',nameList);
+
+nameList(bool)='';
+
 nameList = lower(nameList) ; % Fix those names! Make everything lowercase. 
 
 % Remove wierd characters.

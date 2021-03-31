@@ -127,7 +127,7 @@ if any(diag_St_conf_S<0)
     if norm(diag_St_conf_S(diag_St_conf_S<0))<1e-12
         diag_St_conf_S(diag_St_conf_S<0)=0;
     else
-        error('diag(model.S''*model.covf*model.S) has a large negative entries')
+        warning('diag(model.S''*model.covf*model.S) has a large negative entries')
     end
 end
 model.DrGt0_Uncertainty = sqrt(diag_St_conf_S);

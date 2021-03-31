@@ -1,4 +1,4 @@
-function training_data = prepareTrainingData(model, printLevel, params)
+function [training_data, mappingScore] = prepareTrainingData(model, printLevel, params)
 % Given a standard COBRA model, adds thermodynamic data to it using
 % the Component Contribution method
 %
@@ -62,13 +62,14 @@ training_data.nstd_inchi = kegg_inchies.nstd_inchi(inds);
 % reaction is balanced.
 training_data = balanceReactionsInTrainingData(training_data);
 
+
 % get the pKas for the compounds in the training data (using ChemAxon)
 training_data.kegg_pKa = getTrainingDatapKas(training_data);
 
 % match between the compounds in the model and the KEGG IDs used in the
 % training data, and create the group incidence matrix (G) for the
 % combined set of all compounds.
-training_data = createGroupIncidenceMatrix(model, training_data);
+[training_data, mappingScore] = createGroupIncidenceMatrix(model, training_data);
 
 % apply the reverse Legendre transform for the relevant training observations (typically
 % apparent reaction Keq from TECRDB)
